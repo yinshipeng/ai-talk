@@ -4,9 +4,9 @@ const request = require('request')
 const appkey = 'suICAbvmRApKeZMG';
 let params = {
   'app_id': 2111406154,
-  'session': '1002200000',
+  'session': '10000000',
   'question': '你叫啥',
-  'time_stamp': Date.now(),
+  'time_stamp': Date.parse(new Date())/1000,
   'nonce_str': Math.random().toString(36).substring(2),
   'sign': ''
 }
@@ -17,10 +17,11 @@ function getReqSign(params, appKey) {
   for (let key of keys) {
     let value = params[key]
     if (value) {
-		sign += key + '=' + encodeURI(value).toLocaleUpperCase() + '&'
+		sign += key + '=' + encodeURIComponent(value) + '&'
     }
   }
   sign += 'app_key=' + appKey
+  console.log(sign)
   return md5(sign).toLocaleUpperCase()
 }
 params['sign'] = getReqSign(params, appkey)
